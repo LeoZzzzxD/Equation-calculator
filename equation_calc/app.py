@@ -70,23 +70,23 @@ class App(Tk):
               if len(self.text.get()) <= FUNCTION_LENGTH:    
                   b.bin_first_in(self.text__.get(), self.text_.get(), self.text.get()) 
                   data = b.bin_first_out() 
-                  x, self.prepared_func = m.alg(data[0], data[1], data[2])
-                  if x == "error_":
+                  self.x, self.prepared_func = m.alg(data[0], data[1], data[2])
+                  if self.x == "error_":
                       messagebox.showerror("Alert", "Проверьте правильность введенных данных!")
                       #self.field__.delete("0", END)
                       #self.field_.delete("0", END)
                       #self.field_yo.delete("0", END)
                       self.__flag1__ = False
                       
-                  elif x == "error":
+                  elif self.x == "error":
                       messagebox.showerror("Alert", "Уравнение не сходится!")
-                      self.field__.delete("0", END)
-                      self.field_.delete("0", END)
-                      self.field_yo.delete("0", END)
+                      #self.field__.delete("0", END)
+                      #self.field_.delete("0", END)
+                      #self.field_yo.delete("0", END)
                       self.__flag1__ = False
                             
                   else:
-                      messagebox.showinfo("Message", f"Congratulations! You have the result: x={'{:.4f}'.format(x)}, more data in func_data.txt")
+                      messagebox.showinfo("Message", f"Congratulations! You have the result: x={'{:.4f}'.format(self.x)}, more data in func_data.txt")
                       self.text_of_func = self.text.get()
                       self.field__.delete("0", END)
                       self.field_.delete("0", END)
@@ -203,7 +203,7 @@ class App(Tk):
                     except:
                         pass
                     
-                    self.obj = show.fig(self.value_list_x, self.value_list_y, data_[4], data_[3])
+                    self.obj = show.fig(self.value_list_x, self.value_list_y, data_[4], data_[3], self.x, self.prepared_func)
                     self.obj.show()
                     #self.graph = FigureCanvasTkAgg(self.obj, self.frame2)
                     #self.graph.get_tk_widget().place(x=75,y=110,width=260,height=200)
