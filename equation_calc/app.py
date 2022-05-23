@@ -21,7 +21,7 @@ class App(Tk):
             self.geometry("320x360+450+180")
             self.resizable(width=False, height=False)
             self.title("Equation calculator")
-            self.iconbitmap('calc_ico.ico')
+            self.iconbitmap('calc_sh.ico')
             self.func()
 
         def func(self):
