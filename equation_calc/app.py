@@ -189,6 +189,10 @@ class App(Tk):
                     self.value_list_y = list()
                     value =  int(self.way_to.get().split(':')[1])
                     start_value = int(self.way_to.get().split(':')[0])
+                    
+                    if self.step.get() < 0 or ((value - start_value) > 1000 and self.step.get() < 0.1):
+                        raise Exception
+                    
                     b.bin_second_in(start_value, value, self.step.get(), self.__flag__, self.color)
                     data_ = b.bin_second_out()
                     while  data_[0] <= data_[1]:

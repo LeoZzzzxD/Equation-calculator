@@ -1,5 +1,5 @@
-'start_value', (0, 8)
-'value', (512, 5)
+'start_value', (0, 5)
+'value', (512, 6)
 'step', (1024, 12)
 'flag for lb', (1536, 4)
 'color', (2048, 11)
