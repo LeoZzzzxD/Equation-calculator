@@ -16,6 +16,7 @@ class App(Tk):
         __flag__ = True
         __flag1__ = False
          
+         
         def __init__(self):
             super().__init__()
             self.geometry("320x360+450+180")
@@ -40,11 +41,16 @@ class App(Tk):
             self.notes.bind('<ButtonRelease-1>', self.hadler) 
             self.mainloop()       
        
+       
         def release_info(self):
             
+            data = b.bin_first_out() 
             self.text = StringVar()
             self.text_ = DoubleVar()
             self.text__ = IntVar()
+            self.text__.set(data[0])
+            self.text_.set(data[1])
+            self.text.set(data[2])
             self.field_ = Entry(self.frame1, textvariable=self.text, width=20)
             self.field__ = Entry(self.frame1, textvariable=self.text_, width=20)
             self.show_ = Label(self.frame1, text="input some function:")
@@ -64,12 +70,14 @@ class App(Tk):
             self.power.place(x=94, y=280)
             self.press.place(x=113, y=150)
         
+        
         async def do_this(self):
           
           try:  
-              if len(self.text.get()) <= FUNCTION_LENGTH:    
-                  b.bin_first_in(self.text__.get(), self.text_.get(), self.text.get()) 
-                  data = b.bin_first_out() 
+              if len(self.text.get()) <= FUNCTION_LENGTH:
+                   
+                  b.bin_first_in(self.text__.get(), abs(self.text_.get()), self.text.get()) 
+                  data = [self.text__.get(), abs(self.text_.get()), self.text.get()]
                   self.x, self.prepared_func = m.alg(data[0], data[1], data[2])
                   if self.x == "error_":
                       messagebox.showerror("Alert", "Проверьте правильность введенных данных!")
@@ -87,13 +95,13 @@ class App(Tk):
                             
                   else:
                       messagebox.showinfo("Message", f"Congratulations! You have the result: x={'{:.4f}'.format(self.x)}, more data in func_data.txt")
-                      self.text_of_func = self.text.get()
-                      self.field__.delete("0", END)
-                      self.field_.delete("0", END)
-                      self.field_yo.delete("0", END)
+                      #self.text_of_func = self.text.get()
+                      #self.field__.delete("0", END)
+                      #self.field_.delete("0", END)
+                      #self.field_yo.delete("0", END)
                       self.__flag1__ = True
               else:
-                  messagebox.showerror("Alert", "Слишком длинное выражение!")
+                  messagebox.showerror("Alert", "Слишком длинное выражение для функции!")
                   #self.field__.delete("0", END)
                   #self.field_.delete("0", END)
                   #self.field_yo.delete("0", END)
@@ -113,10 +121,12 @@ class App(Tk):
               #self.field_yo.delete("0", END)
               self.__flag1__ = False
           
+          
         def show_graphs(self):
                 
                 self.tumb = IntVar()
                 self.tumb1 = IntVar()
+                self.text_of_func = StringVar()
                 self.color = 'g'
                 self.tumb.set(1)
                 self.tumb1.set(1)
@@ -125,6 +135,7 @@ class App(Tk):
                 self.way_to = StringVar()
                 self.step = DoubleVar()
                 self.but = Button(self.frame2, text="accept", command=self.draw_it)
+                self.t_1 = Label(self.frame2, textvariable=self.text_of_func)
                 self.t = Label(self.frame2, text="add interval to format #:#")
                 self.e = Entry(self.frame2, textvariable=self.way_to,width=12)
                 self.t_ = Label(self.frame2, text="current func:")
@@ -148,8 +159,9 @@ class App(Tk):
                 self.lab.place(x=125, y=50)
                 self.label1.place(x=160, y=50)
                 self.label2.place(x=205, y=50)   
+                self.t_1.place(x=85, y=80)
                    
-                  
+                
         def checking_c(self):
             value = self.tumb.get()
             if value == 1:
@@ -159,6 +171,7 @@ class App(Tk):
             elif value == 3:
                 self.color = 'y'
         
+        
         def checking_l(self):
             value = self.tumb1.get()
             if value == 1:
@@ -166,20 +179,23 @@ class App(Tk):
             elif value == 2:
                 self.__flag__ = False
                 
+                
         def hadler(self, event):
         
             try:
                 if event and self.__flag1__:
-                    self.t_1 = Label(self.frame2, text=self.text_of_func)
-                    self.t_1.place(x=85, y=80)
+                    #self.t_1 = Label(self.frame2, text=self.text_of_func)
+                    self.text_of_func.set(self.text.get())
+                    #self.t_1.place(x=85, y=80)
                 
                 plt.close(self.obj)
                 #self.graph.get_tk_widget().destroy()
                 self.e.delete("0", END)
                 self.e_.delete("0", END)
-                
+                  
             except:
-                plugy = "plug"
+                pass
+
 
         def draw_it(self):
             if self.__flag1__ and self.way_to.get() and self.step.get():
@@ -193,8 +209,7 @@ class App(Tk):
                     if self.step.get() < 0 or ((value - start_value) > 1000 and self.step.get() < 0.1):
                         raise Exception
                     
-                    b.bin_second_in(start_value, value, self.step.get(), self.__flag__, self.color)
-                    data_ = b.bin_second_out()
+                    data_ = [start_value, value, self.step.get(), self.__flag__, self.color]
                     while  data_[0] <= data_[1]:
                        self.value_list_x.append(data_[0])
                        self.value_list_y.append(self.prepared_func(data_[0]))
@@ -222,6 +237,7 @@ class App(Tk):
                     messagebox.showerror("Alert", "Некорректные данные в форме")
                     self.e.delete("0", END)
                     self.e_.delete("0", END)
+        
         
         def doc(self):
             self.header = Label(self.frame3, text="допустимые математические функции:")   
